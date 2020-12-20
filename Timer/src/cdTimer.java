@@ -80,7 +80,7 @@ public class cdTimer extends Frame {
 
 		JButton setButton = new JButton("set time");// creating instance of JButton
 		setButton.setBounds(30, 100, 100, 40);// x axis, y axis, width, height
-		setButton.addActionListener(setButtonAction(hourTextField, minTextField, secTextField, timerLabel));
+		setButton.addActionListener(setButtonAction(f,hourTextField, minTextField, secTextField, timerLabel));
 		f.add(setButton);// adding button in JFrame
 
 		JButton startButton = new JButton("start timer");// creating instance of JButton
@@ -105,7 +105,7 @@ public class cdTimer extends Frame {
 		f.setVisible(true);// making the frame visible
 	}
 
-	private ActionListener setButtonAction(JTextField h, JTextField m, JTextField s, JLabel t) {
+	private ActionListener setButtonAction(JFrame f, JTextField h, JTextField m, JTextField s, JLabel t) {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
@@ -117,12 +117,15 @@ public class cdTimer extends Frame {
 					minutes = Integer.parseInt(m.getText());
 					seconds = Integer.parseInt(s.getText());
 				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(f, "Invalid Input: Input Type. Please input int "
+							+ "for hours/minutes/seconds.","User Input Error",JOptionPane.ERROR_MESSAGE);
 					System.out.println("Invalid Input: Input Type. Please input int for hours/minutes/seconds.");
 					valid = false;
 				}
 				if (hours < 0 || minutes < 0 || seconds < 0) {
-					System.out
-							.println("Invalid Input: Input Type. Please input positive int for hours/minutes/seconds.");
+					System.out.println("Invalid Input: Input Type. Please input positive int for hours/minutes/seconds.");
+					JOptionPane.showMessageDialog(f, "Invalid Input: Input Type. Please input positive int "
+							+ "for hours/minutes/seconds.","User Input Error",JOptionPane.ERROR_MESSAGE);
 					valid = false;
 				}
 				// Testing
@@ -140,6 +143,8 @@ public class cdTimer extends Frame {
 					hours = hours + (hMulti);
 				}
 				if (hours > 99) {
+					JOptionPane.showMessageDialog(f, "Invalid Input: Overflow. Please do not enter a value over 99 hours, "
+							+ "59 minutes, and 59 seconds.","User Input Error",JOptionPane.ERROR_MESSAGE);
 					System.out.println("Invalid Input: Overflow. Please do not enter a value over 99 hours,"
 							+ " 59 minutes, and 59 seconds.");
 					valid = false;
