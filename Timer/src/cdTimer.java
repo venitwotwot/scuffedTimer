@@ -358,6 +358,7 @@ public class cdTimer extends Frame {
 		Thread.sleep(minMult * 5);
 		audioClip.close();
 		audioStream.close();
+		//testing
 	}
 
 	public static void main(String args[])
