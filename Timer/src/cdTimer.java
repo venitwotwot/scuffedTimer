@@ -71,7 +71,6 @@ public class cdTimer extends Frame {
 		secTextField.setHorizontalAlignment(JTextField.CENTER);
 		f.add(secTextField);
 
-		// testing size component
 		JLabel timerLabel = new JLabel("00:00:00");
 		timerLabel.setBounds(30, 150, 150, 40);// x, y, width, height
 		timerLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -80,7 +79,7 @@ public class cdTimer extends Frame {
 
 		JButton setButton = new JButton("set time");// creating instance of JButton
 		setButton.setBounds(30, 100, 100, 40);// x axis, y axis, width, height
-		setButton.addActionListener(setButtonAction(f,hourTextField, minTextField, secTextField, timerLabel));
+		setButton.addActionListener(setButtonAction(f, hourTextField, minTextField, secTextField, timerLabel));
 		f.add(setButton);// adding button in JFrame
 
 		JButton startButton = new JButton("start timer");// creating instance of JButton
@@ -100,6 +99,34 @@ public class cdTimer extends Frame {
 			}
 		});
 
+		JLabel soundLabel = new JLabel("Select Alarm Sound:");
+		soundLabel.setBounds(30, 270, 150, 40);// x, y, width, height
+		soundLabel.setHorizontalAlignment(JLabel.LEFT);
+		f.add(soundLabel);
+
+		String[] sounds = { "Classic", "BakaBuzzer", "BakaBuzzer (Chain)" };
+		JComboBox soundOptions = new JComboBox(sounds);
+		soundOptions.setBounds(30, 300, 200, 30);
+		f.add(soundOptions);
+
+		JButton setAlarm = new JButton("Set");
+		setAlarm.setBounds(240, 300, 60, 30);
+		f.add(setAlarm);
+		setAlarm.addActionListener(new ActionListener() {  
+	        public void actionPerformed(ActionEvent e) { 
+	        	try {
+	        		System.out.println("Index: "+soundOptions.getSelectedIndex());
+					setAudio(soundOptions.getSelectedIndex());
+				} catch (UnsupportedAudioFileException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (LineUnavailableException e1) {
+					e1.printStackTrace();
+				}
+	        	}  
+		});		
+
 		f.setSize(400, 400);// width and height
 		f.setLayout(null);// using no layout managers
 		f.setVisible(true);// making the frame visible
@@ -117,15 +144,18 @@ public class cdTimer extends Frame {
 					minutes = Integer.parseInt(m.getText());
 					seconds = Integer.parseInt(s.getText());
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(f, "Invalid Input: Input Type. Please input int "
-							+ "for hours/minutes/seconds.","User Input Error",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(f,
+							"Invalid Input: Input Type. Please input int " + "for hours/minutes/seconds.",
+							"User Input Error", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Invalid Input: Input Type. Please input int for hours/minutes/seconds.");
 					valid = false;
 				}
 				if (hours < 0 || minutes < 0 || seconds < 0) {
-					System.out.println("Invalid Input: Input Type. Please input positive int for hours/minutes/seconds.");
-					JOptionPane.showMessageDialog(f, "Invalid Input: Input Type. Please input positive int "
-							+ "for hours/minutes/seconds.","User Input Error",JOptionPane.ERROR_MESSAGE);
+					System.out
+							.println("Invalid Input: Input Type. Please input positive int for hours/minutes/seconds.");
+					JOptionPane.showMessageDialog(f,
+							"Invalid Input: Input Type. Please input positive int " + "for hours/minutes/seconds.",
+							"User Input Error", JOptionPane.ERROR_MESSAGE);
 					valid = false;
 				}
 				// Testing
@@ -143,8 +173,11 @@ public class cdTimer extends Frame {
 					hours = hours + (hMulti);
 				}
 				if (hours > 99) {
-					JOptionPane.showMessageDialog(f, "Invalid Input: Overflow. Please do not enter a value over 99 hours, "
-							+ "59 minutes, and 59 seconds.","User Input Error",JOptionPane.ERROR_MESSAGE);
+					JOptionPane
+							.showMessageDialog(f,
+									"Invalid Input: Overflow. Please do not enter a value over 99 hours, "
+											+ "59 minutes, and 59 seconds.",
+									"User Input Error", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Invalid Input: Overflow. Please do not enter a value over 99 hours,"
 							+ " 59 minutes, and 59 seconds.");
 					valid = false;
@@ -332,15 +365,18 @@ public class cdTimer extends Frame {
 	}
 
 	private void setAudio(int setting) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		if (setting == 1) {
+		if (setting == 3) {
 			// incomplete, bad version
-			//filePath = "C:\\Users\\Vincent\\eclipse-workspace\\Timer\\src\\sound2.wav";
+			// filePath = "C:\\Users\\Vincent\\eclipse-workspace\\Timer\\src\\sound2.wav";
 		} else if (setting == 2) {
-			filePath = "C:\\Users\\Vincent\\eclipse-workspace\\Timer\\src\\bakabuzzer5.wav";
-		} else if (setting == 3) {
-			filePath = "C:\\Users\\Vincent\\eclipse-workspace\\Timer\\src\\bakabuzzer3.wav";
+			filePath = "C:\\Users\\Vincent\\git\\repository\\Timer\\src\\bakabuzzer5.wav";
+			System.out.println("setting = 2");
+		} else if (setting == 1) {
+			filePath = "C:\\Users\\Vincent\\git\\repository\\Timer\\src\\bakabuzzer3.wav";
+			System.out.println("setting = 1");
 		} else {
-			filePath = "C:\\Users\\Vincent\\eclipse-workspace\\Timer\\src\\classic.wav";
+			filePath = "C:\\Users\\Vincent\\git\\repository\\Timer\\src\\classic.wav";
+			System.out.println("setting = default");
 		}
 	}
 
@@ -358,7 +394,7 @@ public class cdTimer extends Frame {
 		Thread.sleep(minMult * 5);
 		audioClip.close();
 		audioStream.close();
-		//testing
+		// testing
 	}
 
 	public static void main(String args[])
@@ -369,7 +405,6 @@ public class cdTimer extends Frame {
 		 */
 		cdTimer cd = new cdTimer(0, 0, 0);
 		JFrame f = new JFrame("Barebones Timer Application");
-		cd.setAudio(3);
 		cd.buildFrame(f);
 
 	}
