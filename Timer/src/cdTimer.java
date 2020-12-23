@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -17,6 +19,7 @@ public class cdTimer extends Frame {
 	final static int minMult = 60000;
 	final static int secMult = 1000;
 	private static String filePath;
+	private static String resourcePath = "\\classic.wav";;
 	private boolean exit;
 	private boolean active;
 	private Clip audioClip;
@@ -116,14 +119,10 @@ public class cdTimer extends Frame {
 	        public void actionPerformed(ActionEvent e) { 
 	        	try {
 	        		System.out.println("Index: "+soundOptions.getSelectedIndex());
-					setAudio(soundOptions.getSelectedIndex());
-				} catch (UnsupportedAudioFileException e1) {
+					setAudio2(soundOptions.getSelectedIndex());
+				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (LineUnavailableException e1) {
-					e1.printStackTrace();
-				}
+				} 
 	        	}  
 		});		
 
@@ -281,28 +280,19 @@ public class cdTimer extends Frame {
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					secLeft2 = secLeft;
 
 					if (runTimeRemain <= 0) {
 						running = false;
-						try {
-							playAlarm();
-						} catch (UnsupportedAudioFileException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (LineUnavailableException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						playAlarmFromResource();
+						//try {
+							//playAlarm();
+						//} catch (UnsupportedAudioFileException | IOException | LineUnavailableException
+							//	| InterruptedException e) {
+							//e.printStackTrace();
+						//} 
 					}
 				}
 			}
@@ -379,6 +369,22 @@ public class cdTimer extends Frame {
 			System.out.println("setting = default");
 		}
 	}
+	
+	private void setAudio2(int setting) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		if (setting == 3) {
+			// incomplete, bad version
+			// filePath = "C:\\Users\\Vincent\\eclipse-workspace\\Timer\\src\\sound2.wav";
+		} else if (setting == 2) {
+			resourcePath = "\\bakabuzzer5.wav";
+			System.out.println("setting = 2");
+		} else if (setting == 1) {
+			resourcePath = "\\bakabuzzer3.wav";
+			System.out.println("setting = 1");
+		} else {
+			resourcePath = "\\classic.wav";
+			System.out.println("setting = default");
+		}
+	}
 
 	private void playAlarm()
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException {
@@ -395,6 +401,30 @@ public class cdTimer extends Frame {
 		audioClip.close();
 		audioStream.close();
 		// testing
+	}
+	
+	private void playAlarmFromResource(){
+		try
+		{
+			InputStream inputStream = cdTimer.class.getResourceAsStream(resourcePath);
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+			AudioFormat format = audioStream.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			audioClip = (Clip) AudioSystem.getLine(info);
+			audioClip.open(audioStream);
+			audioClip.start();
+			Thread.sleep(minMult * 5);
+			audioClip.flush();
+			audioClip.close();
+			audioStream.close();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			System.out.println("Played");
+		}
+
 	}
 
 	public static void main(String args[])
