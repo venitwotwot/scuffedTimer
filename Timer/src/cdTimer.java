@@ -1,3 +1,4 @@
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +20,7 @@ public class cdTimer extends Frame {
 	final static int minMult = 60000;
 	final static int secMult = 1000;
 	private static String filePath;
-	private static String resourcePath = "\\classic.wav";;
+	private static String resourcePath = "/classic.wav";;
 	private boolean exit;
 	private boolean active;
 	private Clip audioClip;
@@ -375,13 +376,13 @@ public class cdTimer extends Frame {
 			// incomplete, bad version
 			// filePath = "C:\\Users\\Vincent\\eclipse-workspace\\Timer\\src\\sound2.wav";
 		} else if (setting == 2) {
-			resourcePath = "\\bakabuzzer5.wav";
+			resourcePath = "/bakabuzzer5.wav";
 			System.out.println("setting = 2");
 		} else if (setting == 1) {
-			resourcePath = "\\bakabuzzer3.wav";
+			resourcePath = "/bakabuzzer3.wav";
 			System.out.println("setting = 1");
 		} else {
-			resourcePath = "\\classic.wav";
+			resourcePath = "/classic.wav";
 			System.out.println("setting = default");
 		}
 	}
@@ -407,12 +408,14 @@ public class cdTimer extends Frame {
 		try
 		{
 			InputStream inputStream = cdTimer.class.getResourceAsStream(resourcePath);
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+			System.out.println(resourcePath);
+			InputStream bufferedInputStream= new BufferedInputStream(inputStream);
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedInputStream);
 			AudioFormat format = audioStream.getFormat();
 			DataLine.Info info = new DataLine.Info(Clip.class, format);
 			audioClip = (Clip) AudioSystem.getLine(info);
 			audioClip.open(audioStream);
-			audioClip.start();
+			audioClip.loop(Clip.LOOP_CONTINUOUSLY);
 			Thread.sleep(minMult * 5);
 			audioClip.flush();
 			audioClip.close();
