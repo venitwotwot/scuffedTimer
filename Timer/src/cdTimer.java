@@ -373,8 +373,7 @@ public class cdTimer extends Frame {
 	
 	private void setAudio2(int setting) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		if (setting == 3) {
-			//resourcePath = "/ievanPolkka.wav";
-			resourcePath = "/testing2.wav";
+			resourcePath = "/polka1.2A.wav";
 			System.out.println("setting = 3");
 		} else if (setting == 2) {
 			resourcePath = "/bakabuzzer5.wav";
