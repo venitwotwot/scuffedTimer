@@ -108,7 +108,7 @@ public class cdTimer extends Frame {
 		soundLabel.setHorizontalAlignment(JLabel.LEFT);
 		f.add(soundLabel);
 
-		String[] sounds = { "Classic", "BakaBuzzer", "BakaBuzzer (Chain)" };
+		String[] sounds = { "Classic", "BakaBuzzer", "BakaBuzzer (Chain)", "Ievan Polkka" };
 		JComboBox soundOptions = new JComboBox(sounds);
 		soundOptions.setBounds(30, 300, 200, 30);
 		f.add(soundOptions);
@@ -373,8 +373,8 @@ public class cdTimer extends Frame {
 	
 	private void setAudio2(int setting) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		if (setting == 3) {
-			// incomplete, bad version
-			// filePath = "C:\\Users\\Vincent\\eclipse-workspace\\Timer\\src\\sound2.wav";
+			resourcePath = "/polka1.2A.wav";
+			System.out.println("setting = 3");
 		} else if (setting == 2) {
 			resourcePath = "/bakabuzzer5.wav";
 			System.out.println("setting = 2");
@@ -416,6 +416,7 @@ public class cdTimer extends Frame {
 			audioClip = (Clip) AudioSystem.getLine(info);
 			audioClip.open(audioStream);
 			audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+			
 			Thread.sleep(minMult * 5);
 			audioClip.flush();
 			audioClip.close();
