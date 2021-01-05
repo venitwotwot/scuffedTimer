@@ -108,7 +108,7 @@ public class cdTimer extends Frame {
 		soundLabel.setHorizontalAlignment(JLabel.LEFT);
 		f.add(soundLabel);
 
-		String[] sounds = { "Classic", "BakaBuzzer", "BakaBuzzer (Chain)", "Ievan Polkka" };
+		String[] sounds = { "BakaBuzzer", "BakaBuzzer (Chain)", "Classic", "Ievan Polka", "Japanese Banshee" };
 		JComboBox soundOptions = new JComboBox(sounds);
 		soundOptions.setBounds(30, 300, 200, 30);
 		f.add(soundOptions);
@@ -372,18 +372,27 @@ public class cdTimer extends Frame {
 	}
 	
 	private void setAudio2(int setting) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		if (setting == 3) {
-			resourcePath = "/polka1.2A.wav";
-			System.out.println("setting = 3");
-		} else if (setting == 2) {
-			resourcePath = "/bakabuzzer5.wav";
-			System.out.println("setting = 2");
-		} else if (setting == 1) {
-			resourcePath = "/bakabuzzer3.wav";
-			System.out.println("setting = 1");
-		} else {
-			resourcePath = "/classic.wav";
-			System.out.println("setting = default");
+		switch (setting) {
+			case 0:
+				System.out.println("Setting: 0");
+				resourcePath = "/bakabuzzer3.wav";
+				break;
+			case 1:
+				System.out.println("Setting: 1");
+				resourcePath = "/bakabuzzer5.wav";
+				break;
+			case 2:
+				System.out.println("Setting: 2");
+				resourcePath = "/classic.wav";
+				break;
+			case 3:
+				System.out.println("Setting: 3");
+				resourcePath = "/polka1.2A.wav";
+				break;
+			case 4:
+				System.out.println("Setting: 4");
+				resourcePath = "/NEEEEEEEEEE.wav";
+				break;
 		}
 	}
 
