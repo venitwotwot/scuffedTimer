@@ -14,6 +14,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+//new commit
+
 public class cdTimer extends Frame {
 	private int timeH, timeM, timeS;
 	final static int hourMult = 3600000;
